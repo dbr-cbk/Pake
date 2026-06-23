@@ -150,13 +150,13 @@ jobs:
           if [ "${{ inputs.multi_arch }}" == "true" ]; then
             ARGS+=("--multi-arch")
           fi
+          
+          if [ "${{ inputs.keep_binary }}" == "true" ]; then
+            ARGS+=("--keep-binary")
+          fi
 
           if [ -n "${{ inputs.targets }}" ] && [ "${{ runner.os }}" == "Linux" ]; then
             ARGS+=("--targets" "${{ inputs.targets }}")
-          fi
-		  
-		  if [ "${{ inputs.keep_binary }}" == "true" ]; then
-            ARGS+=("--keep_binary")
           fi
 
           echo "Running: node dist/cli.js ${ARGS[@]}"
