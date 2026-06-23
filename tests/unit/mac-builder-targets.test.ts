@@ -1,5 +1,5 @@
 import path from 'path';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // tauriConfig.ts reads pake.json at module load, keyed off npmDirectory.
 // Point it at the repo root so the import chain resolves under vitest.
@@ -13,6 +13,11 @@ import { PakeAppOptions } from '@/types';
 
 const makeBuilder = (targets?: string) =>
   new MacBuilder({ name: 'Demo', targets } as PakeAppOptions);
+
+beforeEach(() => {
+  // Clean up PAKE_CREATE_APP env var to avoid affecting tests
+  delete process.env.PAKE_CREATE_APP;
+});
 
 describe('MacBuilder target selection', () => {
   it('builds an app bundle when --targets app is requested', () => {
