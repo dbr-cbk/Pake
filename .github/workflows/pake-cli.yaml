@@ -58,6 +58,11 @@ on:
         required: false
         type: boolean
         default: false
+      keep_binary:
+        description: "When enabled, also outputs a standalone executable that can run without installation."
+        required: false
+        type: boolean
+        default: true
       targets:
         description: "Package formats (comma-separated: deb,appimage,rpm,zst)"
         required: false
@@ -148,6 +153,10 @@ jobs:
 
           if [ -n "${{ inputs.targets }}" ] && [ "${{ runner.os }}" == "Linux" ]; then
             ARGS+=("--targets" "${{ inputs.targets }}")
+          fi
+		  
+		  if [ "${{ inputs.keep_binary }}" == "true" ]; then
+            ARGS+=("--keep_binary")
           fi
 
           echo "Running: node dist/cli.js ${ARGS[@]}"
